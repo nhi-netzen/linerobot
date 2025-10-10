@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <SparkFun_TB6612.h>
 #include "config.h"
-#include "pid.h"
+#include "PID.h"
 #include "motor_control.h"
 #include "sensor.h"
 
