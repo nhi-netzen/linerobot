@@ -1,35 +1,45 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-// ====== Motor Pins (TB6612FNG) ======
-#define AIN1 12
-#define AIN2 13
-#define BIN1 9
-#define BIN2 8
+// Set pins for the TB6612FNG
 #define PWMA 11
-#define PWMB 6
-#define STBY 10
+#define AIN2 10
+#define AIN1 9
+#define STBY 8
+#define BIN1 7
+#define BIN2 6
+#define PWMB 5
 
-// ====== Motor Direction Offsets ======
+// Varibles to switch the direction of the motors
 const int offsetA = 1;
 const int offsetB = 1;
 
-// ====== Line Sensor Array (5 sensors) ======
-#define SENSOR_COUNT 5
-const int sensorPins[SENSOR_COUNT] = {2, 3, 4, 5, 7};
-extern int sensorState[SENSOR_COUNT];
+// Initialize motors
+Motor motor1 = Motor(AIN1, AIN2, PWMA, offsetA, STBY);
+Motor motor2 = Motor(BIN1, BIN2, PWMB, offsetB, STBY);
 
+// Set up the (fake) qtr sensor
+QTRSensors qtr;
+const uint8_t SensorCount = 8;
+uint16_t sensorValues[SensorCount];
 // ====== PID Constants ======
 extern float Kp;
 extern float Ki;
 extern float Kd;
 
-// ====== Line Lost Timeout ======
-const unsigned long LINE_LOST_TIMEOUT = 750;
+// Timer for line loss detection
+unsigned long lineDetectedTime = 0;
+const unsigned long LINE_LOST_TIMEOUT = 777; // threshold (ms)
 
-// ====== Motor Speeds ======
+// Motor speeds
 const int MIN_SPEED = 20;
 const int MAX_SPEED = 255;
-extern int baseSpeed;
+int baseSpeed = 140;
+int leftSpeed = 0;
+int rightSpeed = 0;
+
+// Threshold for the robot to stop and correct itself
+const int CORRECTION_THRESHOLD = 2000;
+const int ROTATION_SPEED = 100;
 
 #endif
